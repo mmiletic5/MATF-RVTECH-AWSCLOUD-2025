@@ -20,7 +20,6 @@ const client = new DynamoDBClient({
   region: 'us-east-1',
 });
 // DocumentClient automatski konvertuje JS objekte <-> DynamoDB format 
-// (nije potrebna { S: "value" } sintaksa)
 const docClient = DynamoDBDocumentClient.from(client);
 
 exports.handler = async () => {
@@ -71,20 +70,10 @@ exports.handler = async () => {
       dateLastVerified: charger.DateLastVerified,
       dateLastStatusUpdate: charger.DateLastStatusUpdate,
       numberOfPoints: charger.NumberOfPoints,               // Broj priključaka za punjenje
-      ttl,                       // (opciono, ne koristimo) DynamoDB TTL - automatsko brisanje nakon 2 dana
+      ttl,                       // (opciono) DynamoDB TTL - automatsko brisanje nakon 2 dana
     }));
 
-    // Loguj statistiku gradova ako želiš da vidiš
-    // const belgradeCount = items.filter(item => item.town === 'Belgrade').length;
-    // const townCounts = items.reduce((acc, item) => {
-    //   acc[item.town] = (acc[item.town] || 0) + 1;
-    //   return acc;
-    // }, {});
-    // console.log(`Belgrade chargers: ${belgradeCount}/${items.length}`);
-    // console.log('Chargers by town:', townCounts);
-
     // Umetni/ažuriraj sve OCM zapise (upsert)
-    // Buduće poboljšanje: koristi Promise.all(batches.map(...)) za paralelno pisanje batch-eva
     const batches = [];
     for (let i = 0; i < items.length; i += BATCH_SIZE) {
       batches.push(items.slice(i, i + BATCH_SIZE));

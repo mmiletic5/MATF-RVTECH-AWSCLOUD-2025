@@ -137,9 +137,7 @@
     <!-- Leaflet JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-      // KONFIGURACIJA - promeni API_ID ako treba
-      // Dobij sa: awslocal apigateway get-rest-apis --query 'items[0].id' --output text
-      const API_ID = 'phxofb9wmp';
+      const API_ID = 'cg8lhdaesq';
       const API_BASE_URL = `http://localhost:4566/restapis/${API_ID}/dev/_user_request_`;
       
       // Inicijalizuj mapu (centrirana na Srbiju)
@@ -273,8 +271,6 @@
 
       document.getElementById('syncBtn').addEventListener('click', syncOCM);
 
-      // Automatski učitaj Belgrade punjače na startu
-      // searchChargers('Belgrade');
     </script>
   </body>
 </html>
